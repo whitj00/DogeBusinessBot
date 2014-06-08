@@ -13,6 +13,7 @@ r.login("USERNAME","PASSWORD")
 already_done = set()
 #sets keywords
 words = ['my business', 'My business', 'My Business', 'My Store', 'My store', 'my store', 'accept DogeCoin', 'Accept DogeCoin', 'accept dogecoin', 'Accept Dogecoin', 'accept Dogecoin', 'vendor', 'Vendor', 'promote', 'Promote', 'advertise', 'Advertise', 'youcanaddmorehere', 'orhere', 'thereisgood', 'orevenrighthere']
+prawWords = ['donations', 'Donate', 'They', 'They', 'YOUCANADDMORE']
 
 def search_post():
         print 'starting'
@@ -25,9 +26,10 @@ def search_post():
                 #creates text file to store submissions, in order to prevent double commenting
                 obj = open('alreadyseen.txt', 'ab+')
                 has_word = any(string in post_title for string in words)
+                has_banned = any(string in post_title for string in prawWords)
                 link = submission.permalink
                 sub_id = submission.id
-                if sub_id not in open("alreadyseen.txt").read() and has_word:
+                if sub_id not in open("alreadyseen.txt").read() and not has_banned and has_word:
                         #ensures the post is not spam
                         if submission.ups>0:
                                 if sub_id not in already_done:
